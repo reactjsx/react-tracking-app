@@ -32,7 +32,7 @@ class App extends Component {
   }
   
   loadTimers = () => {
-    helper.getTimers('https://infinite-scrubland-11596.herokuapp.com/api/timers', (foundTimers) => {
+    helper.getTimers('https://timer-server.herokuapp.com/api/timers', (foundTimers) => {
       this.setState({
         timers: foundTimers
       });
@@ -50,7 +50,7 @@ class App extends Component {
         }
       })
     });
-    helper.startTimer('https://infinite-scrubland-11596.herokuapp.com/api/timers/start', {
+    helper.startTimer('https://timer-server.herokuapp.com/api/timers/start', {
       id: timerId,
       startedFrom: now
     });
@@ -69,7 +69,7 @@ class App extends Component {
         }
       })
     });
-    helper.stopTimer('https://infinite-scrubland-11596.herokuapp.com/api/timers/stop', {
+    helper.stopTimer('https://timer-server.herokuapp.com/api/timers/stop', {
       id: timerId,
       elapsedTime: newElapsedTime
     });
