@@ -7,6 +7,7 @@ const TimerPanel = (props) => {
     return (
       <Button
         icon
+        color='green'
         onClick={props.onPlusClick}
       >
         <Icon name='add' />

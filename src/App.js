@@ -134,12 +134,12 @@ class App extends Component {
     return (
       <div className='ui container'>
         <Grid>
-        <Grid.Row>
+        <Grid.Row centered>
           <Header as='h1'>
             My Task Tracking App
           </Header>
         </Grid.Row>
-        <Grid.Row>
+        <Grid.Row centered>
           <TimerGroup
             timers={this.state.timers}
             onTrashClick={this.handleTrashClick}
@@ -148,7 +148,7 @@ class App extends Component {
             onStopClick={this.handleStopClick}
           />
         </Grid.Row>
-        <Grid.Row>
+        <Grid.Row centered>
           <TimerPanel
             displayForm={this.state.displayAddForm}
             onPlusClick={this.handlePlusClick}
