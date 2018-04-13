@@ -25,29 +25,23 @@ class AddTimerPanel extends Component {
   }
   
   handleCancelClick = () => {
-    this.clearInput()
-  }
-  
-  handlePlusClick = () => {
-    this.setState({
-      displayForm: true
-    });
+    this.clearInput();
+    this.props.onCancelClick();
   }
   
   clearInput = () => {
     this.setState({
-      displayForm: false,
       title: '',
       project: ''
     });
   }
   
   render() {
-    if (!this.state.displayForm) {
+    if (!this.props.displayForm) {
       return (
         <Button
           icon
-          onClick={this.handlePlusClick}
+          onClick={this.props.onPlusClick}
         >
           <Icon name='add' />
         </Button>

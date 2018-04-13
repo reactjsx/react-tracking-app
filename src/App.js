@@ -7,6 +7,7 @@ import helper from './utils/helper';
 
 class App extends Component {
   state = {
+    displayAddForm: false,
     timers: []
   };
   
@@ -74,15 +75,30 @@ class App extends Component {
   
   deleteTimer = (timerId) => {
     this.setState({
-      timers: this.state.timers.filter(timer => timer.Id !== timerId)
+      timers: this.state.timers.filter(timer => timer.id !== timerId)
     });
     helper.deleteTimer('https://timer-server.herokuapp.com/api/timers/', {
       id: timerId
     });
   }
   
+  handlePlusClick = () => {
+    this.setState({
+      displayAddForm: true
+    });
+  }
+  
   handleCreateClick = (timer) => {
     this.createTimer(timer);
+    this.setState({
+      displayAddForm: false
+    });
+  }
+  
+  handleCancelClick = () => {
+    this.setState({
+      displayAddForm: false
+    });
   }
   
   handleTrashClick = timerId => {
@@ -111,7 +127,10 @@ class App extends Component {
         </Grid.Row>
         <Grid.Row>
           <AddTimerPanel
+            displayForm={this.state.displayAddForm}
+            onPlusClick={this.handlePlusClick}
             onCreateClick={this.handleCreateClick}
+            onCancelClick={this.handleCancelClick}
           />
         </Grid.Row>
         </Grid>
