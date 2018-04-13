@@ -1,49 +1,56 @@
 import React, { Component } from 'react';
-import { Button, Card, Icon } from 'semantic-ui-react';
-import helper from '../utils/helper';
+import TimerDisplay from './TimerDisplay';
+import AddOrUpdateTimerForm from './AddOrUpdateTimerForm';
 
 class Timer extends Component {
-  componentDidMount() {
-    this.updateTimerInterval = setInterval(() => this.forceUpdate(), 50);
+  state = {
+    displayUpdateForm: false
+  };
+  
+  handlePencilClick = () => {
+    this.setState({
+      displayUpdateForm: true
+    });
   }
   
-  componentWillUnmount() {
-    clearInterval(this.updateTimerInterval);
+  handleCancelClick = () => {
+    this.setState({
+      displayUpdateForm: false
+    });
+  }
+  
+  handleUpdateClick = (timer) => {
+    this.setState({
+      displayUpdateForm: false
+    });
+    this.props.onUpdateClick(timer);
   }
   
   render() {
-    const elapsedTimeString = helper.elapsedTimeToString(this.props.elapsedTime, this.props.startedFrom);
-    return (
-      <Card>
-        <Card.Content>
-          <Card.Header>
-            {this.props.title}
-          </Card.Header>
-          <Card.Meta>
-            {this.props.project}
-          </Card.Meta>
-          <Card.Description className="center aligned">
-            <h1>{elapsedTimeString}</h1>
-            <Icon
-              name='trash'
-              onClick={this.props.onTrashClick}
-            />
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <Button
-            basic
-            fluid
-            color={this.props.startedFrom ? 'red' : 'green'}
-            onClick={
-              this.props.startedFrom ? this.props.onStopClick : this.props.onStartClick
-            }
-          >
-            {this.props.startedFrom ? 'Stop' : 'Start'}
-          </Button>
-        </Card.Content>
-      </Card>
-    );
+    if (!this.state.displayUpdateForm) {
+      return (
+        <TimerDisplay
+          elapsedTime={this.props.elapsedTime}
+          startedFrom={this.props.startedFrom}
+          title={this.props.title}
+          project={this.props.project}
+          onTrashClick={() => this.props.onTrashClick(this.props.id)}
+          onPencilClick={this.handlePencilClick}
+          onStartClick={() => this.props.onStartClick(this.props.id)}
+          onStopClick={() => this.props.onStopClick(this.props.id)}
+        />
+      );
+    } else {
+      return (
+        <AddOrUpdateTimerForm
+          id={this.props.id}
+          title={this.props.title}
+          project={this.props.project}
+          onCancelClick={this.handleCancelClick}
+          onUpdateClick={this.handleUpdateClick}
+        />
+      );
+    }
   }
 }
 

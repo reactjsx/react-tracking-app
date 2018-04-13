@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
 import TimerGroup from './components/TimerGroup';
-import AddTimerPanel from './components/AddTimerPanel';
+import TimerPanel from './components/TimerPanel';
 import uuid from 'uuid';
 import helper from './utils/helper';
 
@@ -27,6 +27,19 @@ class App extends Component {
       timers: this.state.timers.concat(fullTimer)
     });
     helper.createTimer('https://timer-server.herokuapp.com/api/timers', fullTimer);
+  }
+  
+  updateTimer = (newTimer) => {
+    this.setState({
+      timers: this.state.timers.map((timer) => {
+        if (timer.id === newTimer.id) {
+          return { ...timer, title: newTimer.title, project: newTimer.project};
+        } else {
+          return timer;
+        }
+      })
+    });
+    helper.updateTimer('https://timer-server.herokuapp.com/api/timers', newTimer);
   }
   
   loadTimers = () => {
@@ -101,8 +114,12 @@ class App extends Component {
     });
   }
   
-  handleTrashClick = timerId => {
+  handleTrashClick = (timerId) => {
     this.deleteTimer(timerId);
+  }
+  
+  handleUpdateClick = (timer) => {
+    this.updateTimer(timer);
   }
   
   handleStartClick = (timerId) => {
@@ -118,15 +135,21 @@ class App extends Component {
       <div className='ui container'>
         <Grid>
         <Grid.Row>
+          <Header as='h1'>
+            My Task Tracking App
+          </Header>
+        </Grid.Row>
+        <Grid.Row>
           <TimerGroup
             timers={this.state.timers}
             onTrashClick={this.handleTrashClick}
+            onUpdateClick={this.handleUpdateClick}
             onStartClick={this.handleStartClick}
             onStopClick={this.handleStopClick}
           />
         </Grid.Row>
         <Grid.Row>
-          <AddTimerPanel
+          <TimerPanel
             displayForm={this.state.displayAddForm}
             onPlusClick={this.handlePlusClick}
             onCreateClick={this.handleCreateClick}

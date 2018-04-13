@@ -12,9 +12,10 @@ const TimerGroup = (props) => {
         project={timer.project}
         elapsedTime={timer.elapsedTime}
         startedFrom={timer.startedFrom}
-        onTrashClick={() => props.onTrashClick(timer.id)}
-        onStartClick={() => props.onStartClick(timer.id)}
-        onStopClick={() => props.onStopClick(timer.id)}
+        onTrashClick={props.onTrashClick}
+        onUpdateClick={props.onUpdateClick}
+        onStartClick={props.onStartClick}
+        onStopClick={props.onStopClick}
       />
     );
   });
