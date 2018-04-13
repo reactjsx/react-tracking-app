@@ -13,8 +13,8 @@ class TimerDisplay extends Component {
   
   render() {
     const elapsedTimeString = helper.elapsedTimeToString(this.props.elapsedTime, this.props.startedFrom);
-    let btnColor = '';
     const onClickFunction = this.props.startedFrom ? this.props.onStopClick : this.props.onStartClick;
+    let btnColor = '';
     let btnName = '';
     if (this.props.startedFrom) {
       btnName = 'Stop';
