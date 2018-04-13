@@ -16,7 +16,8 @@ class AddTimerPanel extends Component {
     this.setState({ project: event.target.value });
   }
   
-  handleCreateClick = () => {
+  handleCreateClick = (event) => {
+    event.preventDefault();
     this.props.onCreateClick({
       title: this.state.title,
       project: this.state.project
@@ -68,6 +69,7 @@ class AddTimerPanel extends Component {
               <Button.Group fluid>
                 <Button
                   color='blue'
+                  type='submit'
                   onClick={this.handleCreateClick}
                 >
                   Create
