@@ -8,27 +8,24 @@ import helper from './utils/helper';
 class App extends Component {
   state = {
     timers: []
-    // timers: [
-    //   {
-    //     id: uuid.v4(),
-    //     title: 'timer1',
-    //     project: 'project1',
-    //     elapsedTime: 10,
-    //     startedFrom: null
-    //   },
-    //   {
-    //     id: uuid.v4(),
-    //     title: 'timer2',
-    //     project: 'project2',
-    //     elapsedTime: 20,
-    //     startedFrom: null
-    //   }
-    // ]
   };
   
   componentDidMount() {
     this.loadTimers();
     setInterval(() => this.loadTimers(), 5000);
+  }
+  
+  createTimer = (timer) => {
+    const fullTimer = { 
+      ...timer,
+      elapsedTime: 0,
+      startedFrom: null,
+      id: uuid.v4()
+    };
+    this.setState({
+      timers: this.state.timers.concat(fullTimer)
+    });
+    helper.createTimer('https://timer-server.herokuapp.com/api/timers', fullTimer);
   }
   
   loadTimers = () => {
@@ -39,7 +36,7 @@ class App extends Component {
     });
   }
   
-  handleStartButtonClick = (timerId) => {
+  startTimer = (timerId) => {
     const now = Date.now();
     this.setState({
       timers: this.state.timers.map((timer) => {
@@ -56,7 +53,7 @@ class App extends Component {
     });
   }
   
-  handleStopButtonClick = (timerId) => {
+  stopTimer = (timerId) => {
     const now = Date.now();
     let newElapsedTime = 0;
     this.setState({
@@ -75,6 +72,31 @@ class App extends Component {
     });
   }
   
+  deleteTimer = (timerId) => {
+    this.setState({
+      timers: this.state.timers.filter(timer => timer.Id !== timerId)
+    });
+    helper.deleteTimer('https://timer-server.herokuapp.com/api/timers/', {
+      id: timerId
+    });
+  }
+  
+  handleCreateClick = (timer) => {
+    this.createTimer(timer);
+  }
+  
+  handleTrashClick = timerId => {
+    this.deleteTimer(timerId);
+  }
+  
+  handleStartClick = (timerId) => {
+    this.startTimer(timerId);
+  }
+  
+  handleStopClick = (timerId) => {
+    this.stopTimer(timerId);
+  }
+  
   render() {
     return (
       <div className='ui container'>
@@ -82,12 +104,15 @@ class App extends Component {
         <Grid.Row>
           <TimerGroup
             timers={this.state.timers}
-            onStartClick={this.handleStartButtonClick}
-            onStopClick={this.handleStopButtonClick}
+            onTrashClick={this.handleTrashClick}
+            onStartClick={this.handleStartClick}
+            onStopClick={this.handleStopClick}
           />
         </Grid.Row>
         <Grid.Row>
-          <AddTimerPanel />
+          <AddTimerPanel
+            onCreateClick={this.handleCreateClick}
+          />
         </Grid.Row>
         </Grid>
       </div>

@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Button, Card } from 'semantic-ui-react';
+import { Button, Card, Icon } from 'semantic-ui-react';
 import helper from '../utils/helper';
 
 class Timer extends Component {
   componentDidMount() {
     this.updateTimerInterval = setInterval(() => this.forceUpdate(), 50);
   }
+  
+  componentWillUnmount() {
+    clearInterval(this.updateTimerInterval);
+  }
+  
   render() {
     const elapsedTimeString = helper.elapsedTimeToString(this.props.elapsedTime, this.props.startedFrom);
     return (
@@ -19,6 +24,10 @@ class Timer extends Component {
           </Card.Meta>
           <Card.Description className="center aligned">
             <h1>{elapsedTimeString}</h1>
+            <Icon
+              name='trash'
+              onClick={this.props.onTrashClick}
+            />
           </Card.Description>
         </Card.Content>
         <Card.Content extra>

@@ -18,9 +18,42 @@ const getTimers = (url, success) => {
     .then(success);
 };
 
+const createTimer = (url, data) => {
+  return fetch(url, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+};
+
 const startTimer = (url, data) => {
   return fetch(url, {
     method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+};
+
+const updateTimer = (url, data) => {
+  return fetch(url, {
+    method: 'put',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+};
+
+const deleteTimer = (url, data) => {
+  return fetch(url, {
+    method: 'delete',
     body: JSON.stringify(data),
     headers: {
       'Accept': 'application/json',
@@ -46,6 +79,9 @@ const parseJSON = (res) => {
 
 export default {
   elapsedTimeToString,
+  createTimer,
+  deleteTimer,
+  updateTimer,
   getTimers,
   startTimer,
   stopTimer
