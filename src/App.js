@@ -8,7 +8,8 @@ import helper from './utils/helper';
 class App extends Component {
   state = {
     displayAddForm: false,
-    timers: []
+    timers: [],
+    displayDone: false
   };
   
   URI = 'https://timer-server.herokuapp.com/api/timers';
@@ -16,8 +17,8 @@ class App extends Component {
   STOP_TIMER_URI = 'https://timer-server.herokuapp.com/api/timers/stop';
   
   componentDidMount() {
-    this.loadTimers();
-    setInterval(() => this.loadTimers(), 5000);
+    this.loadTimers(this.state.displayDone);
+    setInterval(() => this.loadTimers(this.state.displayDone), 5000);
   }
   
   createTimer = (timer) => {
@@ -25,6 +26,7 @@ class App extends Component {
       ...timer,
       elapsedTime: 0,
       startedFrom: null,
+      doneAt: null,
       id: uuid.v4()
     };
     this.setState({
@@ -46,10 +48,10 @@ class App extends Component {
     helper.updateTimer(this.URI, newTimer);
   }
   
-  loadTimers = () => {
+  loadTimers = (displayDone) => {
     helper.getTimers(this.URI, (foundTimers) => {
       this.setState({
-        timers: foundTimers
+        timers: foundTimers.filter((timer) => !!timer.doneAt === displayDone)
       });
     });
   }
@@ -90,6 +92,26 @@ class App extends Component {
     });
   }
   
+  finishTimer = (timerId) => {
+    const now = Date.now();
+    let newElapsedTime = 0;
+    this.setState({
+      timers: this.state.timers.map((timer) => {
+        if (timer.id === timerId) {
+          newElapsedTime = !!timer.startedFrom ? timer.elapsedTime + now - timer.startedFrom : timer.elapsedTime;
+          return { ...timer, startedFrom: null, doneAt: now, elapsedTime: newElapsedTime};
+        } else {
+          return timer;
+        }
+      })
+    });
+    helper.stopTimer(this.STOP_TIMER_URI, {
+      id: timerId,
+      elapsedTime: newElapsedTime,
+      doneAt: now
+    });
+  }
+  
   deleteTimer = (timerId) => {
     this.setState({
       timers: this.state.timers.filter(timer => timer.id !== timerId)
@@ -122,6 +144,10 @@ class App extends Component {
     this.deleteTimer(timerId);
   }
   
+  handleCheckmarkClick = (timerId) => {
+    this.finishTimer(timerId);
+  }
+  
   handleUpdateClick = (timer) => {
     this.updateTimer(timer);
   }
@@ -148,6 +174,7 @@ class App extends Component {
           timers={this.state.timers}
           onTrashClick={this.handleTrashClick}
           onUpdateClick={this.handleUpdateClick}
+          onCheckmarkClick={this.handleCheckmarkClick}
           onStartClick={this.handleStartClick}
           onStopClick={this.handleStopClick}
         />

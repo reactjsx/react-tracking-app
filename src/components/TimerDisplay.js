@@ -45,6 +45,10 @@ class TimerDisplay extends Component {
               name='pencil'
               onClick={this.props.onPencilClick}
             />
+            <Icon
+              name='checkmark'
+              onClick={this.props.onCheckmarkClick}
+            />
           </Card.Description>
         </Card.Content>
         <Card.Content extra>

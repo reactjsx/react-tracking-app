@@ -12,6 +12,7 @@ const TimerGroup = (props) => {
         elapsedTime={timer.elapsedTime}
         startedFrom={timer.startedFrom}
         onTrashClick={props.onTrashClick}
+        onCheckmarkClick={props.onCheckmarkClick}
         onUpdateClick={props.onUpdateClick}
         onStartClick={props.onStartClick}
         onStopClick={props.onStopClick}

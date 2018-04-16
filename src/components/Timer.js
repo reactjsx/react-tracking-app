@@ -36,6 +36,7 @@ class Timer extends Component {
           project={this.props.project}
           onTrashClick={() => this.props.onTrashClick(this.props.id)}
           onPencilClick={this.handlePencilClick}
+          onCheckmarkClick={() => this.props.onCheckmarkClick(this.props.id)}
           onStartClick={() => this.props.onStartClick(this.props.id)}
           onStopClick={() => this.props.onStopClick(this.props.id)}
         />
