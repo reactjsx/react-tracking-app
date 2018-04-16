@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from 'semantic-ui-react';
 import Timer from './Timer';
 
 const TimerGroup = (props) => {
@@ -20,9 +19,9 @@ const TimerGroup = (props) => {
     );
   });
   return (
-    <Card.Group>
+    <div className='ui cards centered row'>
       {timers}
-    </Card.Group>
+    </div>
   );
 };
 

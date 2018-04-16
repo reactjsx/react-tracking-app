@@ -11,6 +11,10 @@ class App extends Component {
     timers: []
   };
   
+  URI = 'https://timer-server.herokuapp.com/api/timers';
+  START_TIMER_URI = 'https://timer-server.herokuapp.com/api/timers/start';
+  STOP_TIMER_URI = 'https://timer-server.herokuapp.com/api/timers/stop';
+  
   componentDidMount() {
     this.loadTimers();
     setInterval(() => this.loadTimers(), 5000);
@@ -26,7 +30,7 @@ class App extends Component {
     this.setState({
       timers: this.state.timers.concat(fullTimer)
     });
-    helper.createTimer('https://timer-server.herokuapp.com/api/timers', fullTimer);
+    helper.createTimer(this.URI, fullTimer);
   }
   
   updateTimer = (newTimer) => {
@@ -39,11 +43,11 @@ class App extends Component {
         }
       })
     });
-    helper.updateTimer('https://timer-server.herokuapp.com/api/timers', newTimer);
+    helper.updateTimer(this.URI, newTimer);
   }
   
   loadTimers = () => {
-    helper.getTimers('https://timer-server.herokuapp.com/api/timers', (foundTimers) => {
+    helper.getTimers(this.URI, (foundTimers) => {
       this.setState({
         timers: foundTimers
       });
@@ -61,7 +65,7 @@ class App extends Component {
         }
       })
     });
-    helper.startTimer('https://timer-server.herokuapp.com/api/timers/start', {
+    helper.startTimer(this.START_TIMER_URI, {
       id: timerId,
       startedFrom: now
     });
@@ -80,7 +84,7 @@ class App extends Component {
         }
       })
     });
-    helper.stopTimer('https://timer-server.herokuapp.com/api/timers/stop', {
+    helper.stopTimer(this.STOP_TIMER_URI, {
       id: timerId,
       elapsedTime: newElapsedTime
     });
@@ -139,15 +143,15 @@ class App extends Component {
             My Task Tracking App
           </Header>
         </Grid.Row>
-        <Grid.Row centered>
-          <TimerGroup
-            timers={this.state.timers}
-            onTrashClick={this.handleTrashClick}
-            onUpdateClick={this.handleUpdateClick}
-            onStartClick={this.handleStartClick}
-            onStopClick={this.handleStopClick}
-          />
-        </Grid.Row>
+        
+        <TimerGroup
+          timers={this.state.timers}
+          onTrashClick={this.handleTrashClick}
+          onUpdateClick={this.handleUpdateClick}
+          onStartClick={this.handleStartClick}
+          onStopClick={this.handleStopClick}
+        />
+        
         <Grid.Row centered>
           <TimerPanel
             displayForm={this.state.displayAddForm}
