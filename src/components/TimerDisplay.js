@@ -37,18 +37,27 @@ class TimerDisplay extends Component {
           </Card.Meta>
           <Card.Description className="center aligned">
             <h1>{elapsedTimeString}</h1>
-            <Icon
-              name='trash'
+            <Button
+              icon
+              color='black'
               onClick={this.props.onTrashClick}
-            />
-            <Icon
-              name='pencil'
+            >
+              <Icon name='trash' />
+            </Button>
+            <Button
+              icon
+              color='red'
               onClick={this.props.onPencilClick}
-            />
-            <Icon
-              name='checkmark'
+            >
+              <Icon name='pencil' />
+            </Button>
+            <Button
+              icon
+              color='green'
               onClick={this.props.onCheckmarkClick}
-            />
+            >
+              <Icon name='checkmark' />
+            </Button>
           </Card.Description>
         </Card.Content>
         <Card.Content extra>

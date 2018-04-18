@@ -2,8 +2,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: tan !important;
+  background-size: cover !important;
 }
 
 #root {
   margin-top: 3em;
+}
+
+.ui.header {
+  color: white !important;
 }

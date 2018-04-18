@@ -6,8 +6,9 @@ const TimerPanel = (props) => {
   if (!props.displayForm) {
     return (
       <Button
+        size='huge'
         icon
-        color='green'
+        color='blue'
         onClick={props.onPlusClick}
       >
         <Icon name='add' />
